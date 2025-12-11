@@ -51,7 +51,7 @@ interface Deliverable {
 
 class Courier(val name: String, val speed: Int) : Deliverable {
     override fun calculateDeliveryTime(distance: Int): Int {
-        return distance * speed
+        return speed / distance
     }
 
     override fun deliver(order: Order) {
@@ -99,7 +99,7 @@ class Order(
     }
 }
 fun main () {
-    val courier = Courier("Данияр", speed = 1)
+    val courier = Courier("Данияр", speed = 25)
 
     println("===Обычный клиент====")
     val alisher: Customer = Customer(name = "Алишер", balance = 300.00)
