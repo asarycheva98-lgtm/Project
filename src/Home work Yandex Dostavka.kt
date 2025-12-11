@@ -14,7 +14,7 @@ open class Customer(
     }
 
 
-    open fun order(food: Food, distance: Int, courier: Courier ): Order? {
+    open fun order(food: Food, distance: Int, courier: Courier): Order? {
         println("$name хочет заказать: ${food.name} цена ${food.price}")
         return if (pay(food.price)) {
             Order(this, courier, food, distance)
@@ -78,17 +78,19 @@ class Burger(name: String, price: Double) : Food(name, price) {
         println("Бургер '$name' жарится на гриле 5 минут")
     }
 }
-class Sushi(name: String,price: Double) : Food(name, price){
+
+class Sushi(name: String, price: Double) : Food(name, price) {
     override fun cook() {
         println("Суши '$name' аккуратно крутятся поваром 7 минут")
     }
 }
+
 class Order(
     val customer: Customer,
     val courier: Courier,
     val food: Food,
     val distance: Int
-){
+) {
     fun process() {
         println("\n=== Обработка заказа для ${customer.name} ===")
         println("Заказ создан.")
@@ -98,16 +100,64 @@ class Order(
         println("Заказ с ${food.name} для ${customer.name} - завершен")
     }
 }
-fun main () {
-    val courier = Courier("Данияр", speed = 25)
 
-    println("===Обычный клиент====")
-    val alisher: Customer = Customer(name = "Алишер", balance = 300.00)
-    val order1 = alisher.order(Pizza("Пепперони", 1500.00), 8, courier)
-    order1?.process()
+fun main() {
+    println("Введите имя клиента")
+    val name = readLine() ?: return
+    println("Введите баланс клиента:")
+    val balance = readLine()!!.toDoubleOrNull() ?: return
+    println("Клиент VIP? (yes/no):")
+    val isVip = readLine()!!.lowercase() == "yes"
+    val customer = if (isVip) VipCustomer(name as String, balance as Double) else Customer(
+        name as String,
+        balance as Double
+    )
 
-    println("\n===VIP клиент===")
-    val anfisa: VipCustomer = VipCustomer(name = "Анфиса", balance = 2000.00)
-    val order2 = anfisa.order(Sushi("Филадельфия", 1800.00), 5,courier)
-    order2?.process()
+    println("Выберите блюдо: ")
+    println("1 — Пицца (Пепперони) — 1500")
+    println("2 — Бургер (Чизбургер) — 1200")
+    println("3 — Суши (Филадельфия) — 2000")
+
+    val foodChoice = readLine()!!.toIntOrNull()
+    val food = when (foodChoice) {
+        1 -> Pizza("Пепперони", 1500.0)
+        2 -> Burger("Чизбургер", 1200.0)
+        3 -> Sushi("Филадельфия", 2000.0)
+        else -> {
+            println("Неверный выбор блюда!")
+            return
+        }
+    }
+
+    println("Введите расстояние доставки (км):")
+    val distance = readLine()!!.toIntOrNull() ?: 0
+
+
+    println("\n${customer.name} хочет заказать: ${food.name} за ${food.price}")
+
+    if (!customer.pay(food.price)) {
+        println("Заказ не создан из-за недостатка средств.")
+        return
+    }
+
+    println("Заказ создан.")
+
+    val courier = Courier("Данияр", 40)
+
+    val order = Order(customer, courier, food, distance)
+    order.process()
 }
+
+
+/*  val courier = Courier("Данияр", speed = 25)
+
+  println("===Обычный клиент====")
+  val alisher: Customer = Customer(name = "Алишер", balance = 300.00)
+  val order1 = alisher.order(Pizza("Пепперони", 1500.00), 8, courier)
+  order1?.process()
+
+  println("\n===VIP клиент===")
+  val anfisa: VipCustomer = VipCustomer(name = "Анфиса", balance = 2000.00)
+  val order2 = anfisa.order(Sushi("Филадельфия", 1800.00), 5,courier)
+  order2?.process()
+}*/
