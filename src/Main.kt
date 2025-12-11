@@ -47,13 +47,12 @@ fun calculate() {
         println("Ты дурачок? Выражение должно быть a+b")
         return
     }
-    val aNullable: Double? = parts[0].toDoubleOrNull()
-    val bNullable: Double? = parts[1].toDoubleOrNull()
-    if (aNullable == null || bNullable == null) {
+    val a = parts[0].toDoubleOrNull()
+    val b = parts[1].toDoubleOrNull()
+    if (a == null || b == null) {
         println("Опять фигню пишешь")
+        return
     }
-    val a: Double = aNullable!!
-    val b: Double = bNullable!!
     val result = when (operator) {
         '+' -> a + b
         '-' -> a - b
