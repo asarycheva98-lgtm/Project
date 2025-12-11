@@ -8,7 +8,8 @@ open class Customer(
             println("$name оплатил $amount. Остаток $balance")
             true
         } else {
-            println("$name нищеброд. Нужно $amount")
+            val shortage = amount - balance
+            println("$name нищеброд, иди работай. Не хватает $shortage")
             false
         }
     }
