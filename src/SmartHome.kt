@@ -50,7 +50,8 @@ class Ananas(
 
 
 abstract class SmartDevice(
-    val name: String
+    val name: String,
+    var isOn: Boolean
 ) {
     abstract fun turnOn()
     abstract fun turnOff()
