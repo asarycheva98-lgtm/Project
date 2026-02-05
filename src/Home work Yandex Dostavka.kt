@@ -109,9 +109,9 @@ fun main() {
     val balance = readLine()!!.toDoubleOrNull() ?: return
     println("Клиент VIP? (yes/no):")
     val isVip = readLine()!!.lowercase() == "yes"
-    val customer = if (isVip) VipCustomer(name as String, balance as Double) else Customer(
-        name as String,
-        balance as Double
+    val customer = if (isVip) VipCustomer(name, balance) else Customer(
+        name,
+        balance
     )
 
     println("Выберите блюдо: ")
