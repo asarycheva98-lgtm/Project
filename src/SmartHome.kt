@@ -1,54 +1,14 @@
-/*fun main() {
-
-    val korzina = listOf<Frukt>(
-        Apple(
-            color = "red",
-            chervyachok = true
-        ),
-        Apple(
-            color = "green",
-            chervyachok = false
-        ),
-        Grusha(
-            color = "green"
-        ),
+fun main() {
+    val device = listOf<SmartDevice>(
+        SmartLamp(
+            "Ночник Геннадий"),
+        SmartTV(
+            "Телевизор Антон"),
+        SmartAirConditioner(
+            "Кондиционер Евгений", temperature = 25)
     )
-
-    korzina.get(2).status()
+    device.forEach { controlDevice(it) }
 }
-
-abstract class Frukt(
-    val color: String
-) {
-    abstract fun fuck()
-
-    fun status(){
-
-    }
-}
-
-class Apple(
-    color: String,
-    val chervyachok: Boolean
-) : Frukt(color) {
-    override fun fuck() {
-        println("appl")
-    }
-}
-
-class Grusha(
-    color: String
-) : Frukt(color) {
-    override fun fuck() {
-        println("grusha")
-    }
-}
-
-class Ananas(
-    val color: String
-)*/
-
-
 abstract class SmartDevice(
     val name: String,
     var isOn: Boolean
@@ -57,37 +17,42 @@ abstract class SmartDevice(
     abstract fun turnOff()
 
     fun status() {
-        println("Устройство: $name $isOn")
+        println("Устройство: \"$name\" | Включено: \"$isOn\"")
     }
 
 }
 
-class SmartLamp(name: String) : SmartDevice(name) {
+class SmartLamp(
+    name: String,
+    isOn: Boolean = false
+) : SmartDevice(name, isOn) {
     override fun turnOn() {
         if (isOn) {
-            println("Устройство: \"$name\" уже включена")
+            println("Устройство: \"$name\" уже включен")
             return
         }
         isOn = true
-        println("Устройство: \"$name\" включилась")
+        println("Устройство: \"$name\" включился")
     }
 
     override fun turnOff() {
         if (!isOn) {
-            println("Устройство: \"$name\" уже выключена")
+            println("Устройство: \"$name\" уже выключен")
             return
         }
         isOn = false
-        println("Устройство: \"$name\" выключена")
+        println("Устройство: \"$name\" выключен")
     }
 }
 
-class SmartTV(name: String) : SmartDevice(name) {
+class SmartTV(
+    name: String,
+    isOn: Boolean = false
+) : SmartDevice(name, isOn) {
     override fun turnOn() {
         if (isOn) {
             println("Устройство \"$name\" уже включено")
             return
-
         }
         isOn = true
         println("Устройство \"$name\" включен")
@@ -105,14 +70,18 @@ class SmartTV(name: String) : SmartDevice(name) {
     }
 }
 
-class SmartAirConditioner(name: String, val temperature: Int) : SmartDevice(name) {
+class SmartAirConditioner(
+    name: String,
+    isOn: Boolean = false,
+    val temperature: Int
+) : SmartDevice(name, isOn) {
     override fun turnOn() {
         if (isOn) {
             println("Устройство \"$name\" уже включен")
             return
         }
         isOn = true
-        println("Устройство \"$name\" включен")
+        println("Устройство \"$name\" включен, температура: $temperature")
 
     }
 
@@ -128,37 +97,14 @@ class SmartAirConditioner(name: String, val temperature: Int) : SmartDevice(name
 }
 
 fun controlDevice(device: SmartDevice) {
-    while (true) {
-        println()
-        println("1 - Включить")
-        println("2 - Выключить")
-        println("3 - Статус")
-        println("0 - Назад")
-    }
-    when (readLine()) {
-        "1" -> device.turnOn()
-        "2" -> device.turnOff()
-        "3" -> device.status()
-        "0" -> return
-        else -> println("Что-то пошло не так")
-    }
-
+    device.turnOn()
+    device.status()
+    device.turnOff()
+    device.status()
 
 }
 
-fun main() {
-    val device = listOf<SmartDevice>(
-        SmartLamp(
-            "Ночник Геннадий"),
-        SmartTV(
-            "Телевизор Антон"),
-        SmartAirConditioner(
-            "Кондиционер Евгений", temperature = 25)
 
-
-
-    )
-}
 
 
 
